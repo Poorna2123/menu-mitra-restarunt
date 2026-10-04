@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background: #f4f6f9;
+        }
+
+        /* Top Navigation Bar */
+        .navbar {
+            background: #2c3e50;
+            padding: 18px 40px;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            width: 90%;
+            margin: 40px auto;
+            background: white;
+            padding: 25px 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 28px;
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: #3498db;
+            color: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            font-size: 15px;
+        }
+
+        tr:nth-child(even) {
+            background: #f7f9fc;
+        }
+
+        tr:hover {
+            background: #ecf5ff;
+        }
+
+        td {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .logout-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 18px;
+            background: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        .items-box {
+            line-height: 1.6;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">ADMIN DASHBOARD</div>
+
+    <div class="container">
+        <h2>All Customer Orders</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Table No</th>
+                    <th>People</th>
+                    <th>Items</th>
+                    <th>Total Amount</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order['username'] }}</td>
+                    <td>{{ order['table_no'] }}</td>
+                    <td>{{ order['num_people'] }}</td>
+                    <td class="items-box">
+                        {% for item in order['items'] %}
+                            <strong>{{ item['item'] }}</strong> × {{ item['quantity'] }} = ₹{{ item['total'] }}<br>
+                        {% endfor %}
+                    </td>
+                    <td><strong>₹{{ order['total_amount'] }}</strong></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a class="logout-btn" href="{{ url_for('admin_logout') }}">Logout Admin</a>
+    </div>
+
+</body>
+</html>

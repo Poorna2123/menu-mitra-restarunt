@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Restaurant Menu</title>
+
+    <!-- EMBEDDED MODERN CSS -->
+    <style>
+        /* ---------- GLOBAL STYLING ---------- */
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ---------- HEADER ---------- */
+        .header {
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 30px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        /* ---------- CATEGORY TITLE ---------- */
+        .category-title {
+            font-size: 28px;
+            color: #444;
+            margin: 30px 0 10px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .category-title::after {
+            content: "";
+            width: 100px;
+            height: 4px;
+            background: #ff7e5f;
+            display: block;
+            margin: 8px auto;
+            border-radius: 10px;
+        }
+
+        /* ---------- ITEM GRID ---------- */
+        .menu-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            padding: 10px;
+        }
+
+        /* ---------- ITEM CARD ---------- */
+        .item-card {
+            width: 230px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            padding: 15px;
+            text-align: center;
+            transition: 0.3s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+        }
+
+        .item-card img {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .item-card h4 {
+            margin: 10px 0 5px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .item-card p {
+            font-weight: bold;
+            color: #ff5733;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        /* ----------- QUANTITY / CHECKBOX ----------- */
+        .quantity-box {
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        .quantity-box input[type='number'] {
+            width: 60px;
+            padding: 6px;
+            margin-left: 5px;
+            border-radius: 6px;
+            border: 1px solid #bbb;
+            font-size: 15px;
+        }
+
+        /* ---------- ORDER FORM ---------- */
+        .order-box {
+            width: 60%;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.1);
+        }
+
+        .order-box h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 26px;
+            color: #444;
+        }
+
+        .order-box input {
+            width: 90%;
+            padding: 12px;
+            margin: 10px auto;
+            display: block;
+            font-size: 17px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        /* ---------- BUTTON ---------- */
+        .submit-btn {
+            background: #ff7e5f;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            display: block;
+            margin: 20px auto 0;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #ff5a3d;
+            transform: scale(1.07);
+        }
+
+        /* ---------- LOGOUT ---------- */
+        .logout {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .logout a {
+            font-size: 18px;
+            text-decoration: none;
+            color: #444;
+            font-weight: bold;
+        }
+
+        .logout a:hover {
+            color: #ff5a3d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        Welcome {{ session['username'] }} 🍽️  
+    </div>
+
+    <form action="{{ url_for('order') }}" method="POST">
+
+        <!-- ================= VEG ITEMS ================ -->
+        <h2 class="category-title">🥗 Veg Dishes</h2>
+
+        <div class="menu-grid">
+            {% for item in veg_items %}
+            <div class="item-card">
+                <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }}">
+                <h4>{{ item.name }}</h4>
+                <p>₹{{ item.price }}</p>
+                
+                <label class="quantity-box">
+                    <input type="checkbox" name="item" value="{{ item.name }}"> Select  
+                    <br>
+                    Qty:
+                    <input type="number" name="quantity" value="1" min="1">
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- =============== NON VEG ITEMS ================= -->
+        <h2 class="category-title">🍗 Non-Veg Dishes</h2>
+
+        <div class="menu-grid">
+            {% for item in non_veg_items %}
+            <div class="item-card">
+                <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }}">
+                <h4>{{ item.name }}</h4>
+                <p>₹{{ item.price }}</p>
+
+                <label class="quantity-box">
+                    <input type="checkbox" name="item" value="{{ item.name }}"> Select  
+                    <br>
+                    Qty:
+                    <input type="number" name="quantity" value="1" min="1">
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- ================== ORDER FORM ================== -->
+        <div class="order-box">
+            <h3>🧾 Order Details</h3>
+
+            <input type="text" name="table_no" placeholder="Enter Table Number" required>
+            <input type="number" name="num_people" placeholder="Number of People" required>
+
+            <button type="submit" class="submit-btn">Place Order</button>
+        </div>
+
+    </form>
+
+    <!-- LOGOUT -->
+    <div class="logout">
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+</body>
+</html>

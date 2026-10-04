@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup</title>
+    <style>
+        /* ---------- Global Page Styling ---------- */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ---------- Signup Card ---------- */
+        .signup-card {
+            background: #ffffff;
+            width: 400px;
+            padding: 40px 35px;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+            animation: slideIn 0.8s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- Heading ---------- */
+        h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        /* ---------- Input Fields ---------- */
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 12px;
+            font-size: 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            outline: none;
+            transition: 0.3s;
+            background: #f8f8f8;
+        }
+
+        input:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 8px rgba(106,17,203,0.3);
+            background: #fff;
+        }
+
+        /* ---------- Button ---------- */
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* ---------- Links ---------- */
+        .signup-card a {
+            display: inline-block;
+            margin-top: 18px;
+            color: #6a11cb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .signup-card a:hover {
+            text-decoration: underline;
+            color: #2575fc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-card">
+        <h2>Create Account</h2>
+        <p>Sign up to start your order</p>
+
+        <form method="POST">
+            <div class="input-group">
+                <input type="text" name="username" placeholder="Enter Username" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Enter Password" required>
+            </div>
+
+            <button type="submit">Signup</button>
+        </form>
+
+        <a href="{{ url_for('login') }}">Already have an account? Login</a>
+    </div>
+
+</body>
+</html>
